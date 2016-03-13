@@ -1,6 +1,8 @@
 
 import java.sql.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -42,9 +44,11 @@ public class records {
 
     private static void query(String sql) {
         stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-         
-        while (rs.next()) {
+        ResultSet rs = null;
+        try {
+            rs = stmt.executeQuery(sql);
+            
+            while (rs.next()) {
                 //Retrieve by column name
                 String id = rs.getString("au_id");
                 String phone = rs.getString("phone");
@@ -52,9 +56,12 @@ public class records {
                 String last = rs.getString("au_lname");
 
                 //Display values
-                System.out.printf(displayFormat,
-                        dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+                //System.out.printf(displayFormat,
+                       // dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         
         
 
