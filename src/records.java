@@ -18,8 +18,7 @@ public class records {
 
     public static void main(String[] args) {
         createConnection();
-        queries();
-
+        userInteraction();
     }
 
     private static void createConnection() {
@@ -33,7 +32,31 @@ public class records {
         }
     }
 
-    private static void queries() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static void userInteraction() {
+        System.out.println("1.List All Albums Titles\n"
+                + "2.List all the data for an album specified by the user\n"
+                + "3.Insert a new album\n"
+                + "4.Insert a new studio and update all albums published by one studio to be published by the new studio\n"
+                + "5.Remove an album specified by the user");
+    }
+
+    private static void query(String sql) {
+        stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+         
+        while (rs.next()) {
+                //Retrieve by column name
+                String id = rs.getString("au_id");
+                String phone = rs.getString("phone");
+                String first = rs.getString("au_fname");
+                String last = rs.getString("au_lname");
+
+                //Display values
+                System.out.printf(displayFormat,
+                        dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+            }
+        
+        
+
     }
 }
