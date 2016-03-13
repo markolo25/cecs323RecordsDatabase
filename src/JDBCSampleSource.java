@@ -13,7 +13,7 @@ public class JDBCSampleSource {
     static String PASS;
     static String DBNAME;
     //This is the specificat    static final String displayFormat="%-5s%-15s%-15s%-15s\n";
-ion for the printout that I'm doing:
+    //ion for the printout that I'm doing:
     //each % denotes the start of a new field.
     //The - denotes left justification.
     //The number indicates how wide to make the field.
