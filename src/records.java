@@ -38,7 +38,7 @@ public class records {
     }
 
     private static void userInteraction() {
-        Scanner scan = Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
         System.out.println("1.List All Albums Titles\n"
                 + "2.List all the data for an album specified by the user\n"
                 + "3.Insert a new album\n"
@@ -89,10 +89,6 @@ public class records {
     }
 
     private static void exitCase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private static Scanner Scanner(InputStream in) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
