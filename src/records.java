@@ -48,7 +48,7 @@ public class records {
         int choice = scan.nextInt();
         switch (choice) {
             case 1:
-                query("Select * From Albums", "Album_Title");
+                query("Select Album_Title From Albums", "Album_Title");
                 break;
             case 2:
                 query("Select * From Album", "Album TItle");

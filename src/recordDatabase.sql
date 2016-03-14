@@ -4,10 +4,10 @@
  */
 
 create Table Albums(
-Album Title VARCHAR(35) NOT NULL;
-Group Name VARCHAR(35) NOT NULL;
-Studio Name VARCHAR(35) NOT NULL
-DATE Recorded Date;
-Lenth Int;
-Number of Songs Int;
+Album_Title VARCHAR(35) NOT NULL;
+Group_Name VARCHAR(35) NOT NULL;
+Studio_Name VARCHAR(35) NOT NULL
+Date_Recorded Date;
+Length Int;
+Number_of_Songs Int;
 );
