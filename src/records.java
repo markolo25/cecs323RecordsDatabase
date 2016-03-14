@@ -1,4 +1,5 @@
 
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -37,16 +38,17 @@ public class records {
     }
 
     private static void userInteraction() {
+        Scanner scan = Scanner(System.in);
         System.out.println("1.List All Albums Titles\n"
                 + "2.List all the data for an album specified by the user\n"
                 + "3.Insert a new album\n"
                 + "4.Insert a new studio and update all albums published by one studio to be published by the new studio\n"
                 + "5.Remove an album specified by the user\n"
                 + "6.Exit");
-        int choice = 2;
+        int choice = scan.nextInt();
         switch (choice) {
             case 1:
-                query("Select * From Album", "Album TItle");
+                query("Select * From Albums", "Album_Title");
                 break;
             case 2:
                 query("Select * From Album", "Album TItle");
@@ -74,11 +76,7 @@ public class records {
             rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                //Retrieve by column name
-                String id = rs.getString("au_id");
-                String phone = rs.getString("phone");
-                String first = rs.getString("au_fname");
-                String last = rs.getString("au_lname");
+                
 
                 //Display values
                 //System.out.printf(displayFormat,
@@ -91,6 +89,10 @@ public class records {
     }
 
     private static void exitCase() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static Scanner Scanner(InputStream in) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
