@@ -39,15 +39,38 @@ public class records {
                 + "2.List all the data for an album specified by the user\n"
                 + "3.Insert a new album\n"
                 + "4.Insert a new studio and update all albums published by one studio to be published by the new studio\n"
-                + "5.Remove an album specified by the user");
+                + "5.Remove an album specified by the user\n"
+                + "6.Exit");
+        int choice = 2;
+        switch (choice) {
+            case 1:
+                query("Select * From Album", "Album TItle");
+                break;
+            case 2:
+                query("Select * From Album", "Album TItle");
+                break;
+            case 3:
+                query("Select * From Album", "Album TItle");
+                break;
+            case 4:
+                query("Select * From Album", "Album TItle");
+                break;
+            case 5:
+                query("Select * From Album", "Album TItle");
+                break;
+            case 6:
+                exitCase();
+
+        }
+
     }
 
-    private static void query(String sql) {
-        stmt = conn.createStatement();
-        ResultSet rs = null;
+    private static void query(String sql, String displayFormat) {
         try {
+            stmt = conn.createStatement();
+            ResultSet rs = null;
             rs = stmt.executeQuery(sql);
-            
+
             while (rs.next()) {
                 //Retrieve by column name
                 String id = rs.getString("au_id");
@@ -57,13 +80,15 @@ public class records {
 
                 //Display values
                 //System.out.printf(displayFormat,
-                       // dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+                // dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
-        
 
+    }
+
+    private static void exitCase() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
