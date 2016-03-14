@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
  * @author mark
@@ -27,7 +28,8 @@ public class records {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
             //Get a connection
-            DB_URL = DB_URL + DBNAME + ";user=" + USER + ";paDssword=" + PASS;
+            DB_URL = DB_URL + DBNAME + ";user=" + USER + ";password=" + PASS;
+            //System.out.println(DB_URL);
             conn = DriverManager.getConnection(DB_URL);
         } catch (Exception except) {
             except.printStackTrace();
