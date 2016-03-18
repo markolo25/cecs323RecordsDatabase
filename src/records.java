@@ -5,7 +5,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author mark
@@ -51,7 +50,8 @@ public class records {
                 query("Select Album_Title From Albums", "Album_Title");
                 break;
             case 2:
-                query("Select * From Album", "Album TItle");
+                System.out.println("Which album would you like to know about");
+                viewSingle(scan.nextLine());
                 break;
             case 3:
                 query("Select * From Album", "Album TItle");
@@ -69,6 +69,11 @@ public class records {
 
     }
 
+    private static void viewSingle(String title) {
+        query("select * from album where title = " + title, "Album_Title");
+
+    }
+
     private static void query(String sql, String displayFormat) {
         try {
             stmt = conn.createStatement();
@@ -76,11 +81,8 @@ public class records {
             rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                
 
-                //Display values
-                //System.out.printf(displayFormat,
-                // dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+             
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
