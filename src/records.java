@@ -32,7 +32,9 @@ public class records {
             //System.out.println(DB_URL);
             conn = DriverManager.getConnection(DB_URL);
         } catch (Exception except) {
+            System.out.println("The database is missing");
             except.printStackTrace();
+            
         }
     }
 
@@ -82,15 +84,20 @@ public class records {
 
             while (rs.next()) {
 
-             
             }
         } catch (SQLException ex) {
+            System.out.println("Most likely that table hasn't been made yet");
             ex.printStackTrace();
         }
 
     }
 
     private static void exitCase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+                        stmt.close();
+            System.exit(0);
+        } catch (Exception ex) {
+            Logger.getLogger(records.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
