@@ -1,6 +1,8 @@
 
 import java.sql.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,6 +39,7 @@ public class records {
 
     private static void userInteraction() {
         Scanner scan = new Scanner(System.in);
+        System.out.println("RecordList ");
         System.out.println("1.List All Albums Titles\n"
                 + "2.List all the data for an album specified by the user\n"
                 + "3.Insert a new album\n"
@@ -54,10 +57,14 @@ public class records {
                 viewSingle(scan);
                 break;
             case 3:
+                System.out.println("Tell me more about this album");
+                insertAlbum(scan);
                 break;
             case 4:
+
                 break;
             case 5:
+
                 break;
             case 6:
                 scan.close();
@@ -106,6 +113,7 @@ public class records {
                 }
 
             }
+            System.out.println("");
             rs.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -130,6 +138,20 @@ public class records {
         } else {
             return input;
         }
+    }
+
+    //Reference: INSERT INTO albums VALUES('Party Studio','jammie', 'Sunday', '12/12/1961', '3:03', '2');
+    private static void insertAlbum(Scanner scan) {
+        try {
+            
+            
+
+            stmt = conn.createStatement();
+            stmt.executeUpdate("INSERT INTO albums VALUES('Party Studio','jammie', 'Saturday', '12/12/1961', '3:03', '2')");
+        } catch (SQLException ex) {
+            Logger.getLogger(records.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }
