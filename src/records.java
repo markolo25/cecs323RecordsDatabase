@@ -17,6 +17,7 @@ public class records {
     static String DB_URL = "jdbc:derby://localhost:1527/";
     private static Connection conn = null;
     private static Statement stmt = null;
+    private int debug = 0;
 
     public static void main(String[] args) {
         createConnection();
@@ -38,7 +39,9 @@ public class records {
     }
 
     private static void userInteraction() {
-        Scanner scan = new Scanner(System.in);
+        Scanner scan = null;
+        Scanner scanToo = new Scanner(System.in);
+        scan = new Scanner(System.in);
         System.out.println("RecordList ");
         System.out.println("1.List All Albums Titles\n"
                 + "2.List all the data for an album specified by the user\n"
@@ -46,7 +49,7 @@ public class records {
                 + "4.Insert a new studio and update all albums published by one studio to be published by the new studio\n"
                 + "5.Remove an album specified by the user\n"
                 + "6.Exit");
-        int choice = scan.nextInt();
+        int choice = scanToo.nextInt();
 
         switch (choice) {
             case 1:
@@ -61,7 +64,7 @@ public class records {
                 insertAlbum(scan);
                 break;
             case 4:
-
+                insertStudio(scan);
                 break;
             case 5:
                 System.out.println("Which album would you like to delete");
@@ -69,7 +72,7 @@ public class records {
                 removeAlbum(scan);
                 break;
             case 6:
-                scan.close();
+                scanToo.close();
                 exitCase();
 
         }
@@ -79,7 +82,6 @@ public class records {
     private static void viewSingle(Scanner scan) {
 
         String title = scan.nextLine();
-        title = scan.next();
         query("select * from albums WHERE albumtitle = \'" + title + "\'", 2);
     }
 
@@ -91,16 +93,24 @@ public class records {
             rs = stmt.executeQuery(sql);
             if (type == 1) {
                 System.out.println("Title");
-                System.out.println("----------------");
+                System.out.println("------------------------------------------------------------------------");
             }
             if (type == 2) {
                 System.out.println("Title\tGroup\t\tStudio\t\tdloDate_Recorded\tLength\tNumber of Songs");
-                System.out.println("---------------------------------------------------------");
+                System.out.println("------------------------------------------------------------------------");
 
+            }
+            if (type == 3) {
+                System.out.println("Which studio would you like to change");
             }
 
             while (rs.next()) {
-                String title = dispNull(rs.getString("ALBUMTITLE"));
+                String title = null;
+
+                if (type < 3) {
+                    title = dispNull(rs.getString("ALBUMTITLE"));
+                }
+
                 if (type == 2) {
                     String gName = dispNull(rs.getString("GROUPNAME"));
                     String sName = dispNull(rs.getString("STUDIONAME"));
@@ -112,6 +122,10 @@ public class records {
                 }
                 if (type == 1) {
                     System.out.println(title);
+                }
+
+                if (type == 3) {
+                    System.out.println(rs.getString("STUDIONAME"));
                 }
 
             }
@@ -146,7 +160,7 @@ public class records {
     private static void insertAlbum(Scanner scan) {
         String sName = null, gName = null, title = null, date = null, length = null, tracks = null;
         try {
-            System.out.println("Name of album");
+            System.out.println("Name of album (Please avoid apostrophies)");
             title = scan.nextLine();
             System.out.println("How many tracks does it have");
             tracks = scan.nextLine();
@@ -158,6 +172,7 @@ public class records {
             stmt.executeUpdate("INSERT INTO albums VALUES(\'" + sName + "\',\'" + gName + "\', \'" + title + "\', \'" + date + "\', \'" + length + "\', \'" + tracks + "\')");
 
         } catch (Exception ex) {
+            System.out.println("Primary Key match error, you already have an element with a matching primary key, or you have an \' on your input");
             ex.printStackTrace();
         }
 
@@ -168,7 +183,6 @@ public class records {
             System.out.println("Which one would you like to remove");
             stmt = conn.createStatement();
             String album = scan.nextLine();
-            album = scan.next();
             String sql = "DELETE FROM ALBUMS WHERE ALBUMTITLE = \'" + album + "\'";
             System.out.println(sql);
             stmt.executeUpdate(sql);
@@ -178,4 +192,36 @@ public class records {
 
     }
 
+//INSERT INTO recordingstudio VALUES('Arkham Studio','13 eastshore,irvine','sam','949-123-4567');
+    private static void insertStudio(Scanner scan) {
+        String owner = null, phone = null, studioName = null, studioAddress = null;
+        try {
+
+            System.out.println("Studio Name?");
+            studioName = scan.nextLine();
+            System.out.println("Studio Address?");
+            studioAddress = scan.nextLine();
+            System.out.println("Studio Owner?");
+            owner = scan.nextLine();
+            System.out.println("Studio Phone?");
+            phone = scan.nextLine();
+
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO recordingstudio VALUES(\'" + studioName + "\',\'" + studioAddress + "\', \'" + owner + "\', \'" + phone + "\')";
+            stmt.executeUpdate(sql);
+
+            System.out.println("Which studio would you like to replace");
+            System.out.println("_____________________________________________");
+            query("Select Studioname From recordingstudio", 3);
+            String studioToReplace = scan.nextLine();
+            String updSQL = "UPDATE RECORDS.ALBUMS SET \"STUDIONAME\" = \'" + studioName + "\' WHERE STUDIONAME = \'" + studioToReplace+"\'";
+            System.out.println(updSQL);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(updSQL);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+    }
 }
