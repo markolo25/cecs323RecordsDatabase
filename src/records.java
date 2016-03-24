@@ -1,9 +1,6 @@
 
-import java.io.InputStream;
 import java.sql.*;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -47,20 +44,17 @@ public class records {
         int choice = scan.nextInt();
         switch (choice) {
             case 1:
-                query("Select Album_Title From Albums", "Album_Title");
+                query("Select AlbumTitle From Albums", 1);
                 break;
             case 2:
                 System.out.println("Which album would you like to know about");
                 viewSingle(scan.nextLine());
                 break;
             case 3:
-                query("Select * From Album", "Album TItle");
                 break;
             case 4:
-                query("Select * From Album", "Album TItle");
                 break;
             case 5:
-                query("Select * From Album", "Album TItle");
                 break;
             case 6:
                 exitCase();
@@ -70,19 +64,32 @@ public class records {
     }
 
     private static void viewSingle(String title) {
-        query("select * from album where title = " + title, "Album_Title");
-
+        query("select * from album where title IS " + title, 2);
     }
 
-    private static void query(String sql, String displayFormat) {
+    private static void query(String sql, int type) {
         try {
             stmt = conn.createStatement();
             ResultSet rs = null;
             rs = stmt.executeQuery(sql);
+            if (type == 1) {
+                System.out.println("Title");
+                System.out.println("----------------");
+            }
+            if (type == 2) {
+
+            }
 
             while (rs.next()) {
+                String title = dispNull(rs.getString("ALBUMTITLE"));
+                if (type == 2) {
 
-             
+                }
+
+                if (type == 1) {
+                    System.out.println(title);
+                }
+
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -93,4 +100,20 @@ public class records {
     private static void exitCase() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    /**
+     * Takes the input string and outputs "N/A" if the string is empty or null.
+     *
+     * @param input The string to be mapped.
+     * @return Either the input string or "N/A" as appropriate.
+     */
+    public static String dispNull(String input) {
+        //because of short circuiting, if it's null, it never checks the length.
+        if (input == null || input.length() == 0) {
+            return "N/A";
+        } else {
+            return input;
+        }
+    }
+
 }
