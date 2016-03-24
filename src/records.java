@@ -64,7 +64,9 @@ public class records {
 
                 break;
             case 5:
-
+                System.out.println("Which album would you like to delete");
+                query("Select AlbumTitle From Albums", 1);
+                removeAlbum(scan);
                 break;
             case 6:
                 scan.close();
@@ -142,14 +144,36 @@ public class records {
 
     //Reference: INSERT INTO albums VALUES('Party Studio','jammie', 'Sunday', '12/12/1961', '3:03', '2');
     private static void insertAlbum(Scanner scan) {
+        String sName = null, gName = null, title = null, date = null, length = null, tracks = null;
         try {
-            
-            
-
+            System.out.println("Name of album");
+            title = scan.nextLine();
+            System.out.println("How many tracks does it have");
+            tracks = scan.nextLine();
+            date = "3/24/16";
+            sName = "Arkham Studio";
+            gName = "ragae boys";
+            length = "9:99";
             stmt = conn.createStatement();
-            stmt.executeUpdate("INSERT INTO albums VALUES('Party Studio','jammie', 'Saturday', '12/12/1961', '3:03', '2')");
-        } catch (SQLException ex) {
-            Logger.getLogger(records.class.getName()).log(Level.SEVERE, null, ex);
+            stmt.executeUpdate("INSERT INTO albums VALUES(\'" + sName + "\',\'" + gName + "\', \'" + title + "\', \'" + date + "\', \'" + length + "\', \'" + tracks + "\')");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private static void removeAlbum(Scanner scan) {
+        try {
+            System.out.println("Which one would you like to remove");
+            stmt = conn.createStatement();
+            String album = scan.nextLine();
+            album = scan.next();
+            String sql = "DELETE FROM ALBUMS WHERE ALBUMTITLE = \'" + album + "\'";
+            System.out.println(sql);
+            stmt.executeUpdate(sql);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }
