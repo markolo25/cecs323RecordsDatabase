@@ -18,7 +18,9 @@ public class records {
 
     public static void main(String[] args) {
         createConnection();
-        userInteraction();
+        while (true) {
+            userInteraction();
+        }
     }
 
     private static void createConnection() {
@@ -42,13 +44,14 @@ public class records {
                 + "5.Remove an album specified by the user\n"
                 + "6.Exit");
         int choice = scan.nextInt();
+
         switch (choice) {
             case 1:
                 query("Select AlbumTitle From Albums", 1);
                 break;
             case 2:
                 System.out.println("Which album would you like to know about");
-                viewSingle(scan.nextLine());
+                viewSingle(scan);
                 break;
             case 3:
                 break;
@@ -57,17 +60,21 @@ public class records {
             case 5:
                 break;
             case 6:
+                scan.close();
                 exitCase();
 
         }
 
     }
 
-    private static void viewSingle(String title) {
-        query("select * from album where title IS " + title, 2);
+    private static void viewSingle(Scanner scan) {
+
+        String title = scan.nextLine();
+        query("select * from albums WHERE albumtitle = \'" + title + "\'", 2);
     }
 
     private static void query(String sql, int type) {
+        System.out.println(sql);
         try {
             stmt = conn.createStatement();
             ResultSet rs = null;
@@ -77,20 +84,28 @@ public class records {
                 System.out.println("----------------");
             }
             if (type == 2) {
+                System.out.println("Title   Group       Studio        Date_Recorded  Length  Number of Songs");
+                System.out.println("---------------------------------------------------------");
 
             }
 
             while (rs.next()) {
                 String title = dispNull(rs.getString("ALBUMTITLE"));
                 if (type == 2) {
+                    String gName = dispNull(rs.getString("GROUPNAME"));
+                    String sName = dispNull(rs.getString("STUDIONAME"));
+                    String dateRecorded = dispNull(rs.getString("DATERECORDED"));
+                    String length = dispNull(rs.getString("LENGTH"));
+                    String numberOfSongs = dispNull(rs.getString("NUMBEROFSONGS"));
 
+                    System.out.println(title + "   " + gName + "    " + sName + "    " + dateRecorded + "     " + length + "       " + numberOfSongs);
                 }
-
                 if (type == 1) {
                     System.out.println(title);
                 }
 
             }
+            rs.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
