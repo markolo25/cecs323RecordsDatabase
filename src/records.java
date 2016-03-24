@@ -70,6 +70,7 @@ public class records {
     private static void viewSingle(Scanner scan) {
 
         String title = scan.nextLine();
+        title = scan.next();
         query("select * from albums WHERE albumtitle = \'" + title + "\'", 2);
     }
 
@@ -84,7 +85,7 @@ public class records {
                 System.out.println("----------------");
             }
             if (type == 2) {
-                System.out.println("Title   Group       Studio        Date_Recorded  Length  Number of Songs");
+                System.out.println("Title\tGroup\t\tStudio\t\tdloDate_Recorded\tLength\tNumber of Songs");
                 System.out.println("---------------------------------------------------------");
 
             }
@@ -98,7 +99,7 @@ public class records {
                     String length = dispNull(rs.getString("LENGTH"));
                     String numberOfSongs = dispNull(rs.getString("NUMBEROFSONGS"));
 
-                    System.out.println(title + "   " + gName + "    " + sName + "    " + dateRecorded + "     " + length + "       " + numberOfSongs);
+                    System.out.println(title + "\t" + gName + "\t" + sName + "\t" + dateRecorded + "\t" + length + "\t" + numberOfSongs);
                 }
                 if (type == 1) {
                     System.out.println(title);
